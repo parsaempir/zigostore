@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #9A2586;
+  --color-secondary: #6D6E71;
+  --color-accent: #939598;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "IRANSans", "Inter", var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --font-lalezar: var(--font-lalezar), system-ui, sans-serif;
+  --font-iransans: "IRANSans", sans-serif;
+  --font-yekan: "Yekan", "IRANYekan", sans-serif;
+}
+
+:root {
+  --background: #f9f8ff;
+  --foreground: #171717;
+  --primary: #9A2586;
+  --secondary: #6D6E71;
+  --accent: #939598;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f9f8ff;
+    --foreground: #171717;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-iransans), system-ui, sans-serif;
+  font-weight: bold;
+}
+
+p {
+  font-family: var(--font-yekan), sans-serif;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass {
+  background: rgba(10, 10, 10, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+@keyframes gradient-x {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
