@@ -114,18 +114,18 @@ export default function ProductsPage() {
       
       <div className="pt-24 md:pt-32 pb-20 px-4 md:px-6 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 gap-6">
-          <div>
-            <nav className="flex items-center gap-2 text-accent text-[10px] md:text-xs mb-3 md:mb-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6">
+          <div className="text-right">
+            <nav className="flex items-center justify-start gap-2 text-accent text-[10px] md:text-xs mb-3 md:mb-4">
               <span onClick={() => router.push("/")} className="cursor-pointer hover:text-primary transition-colors">خانه</span>
               <ArrowRight className="w-3 h-3 rotate-180" />
               <span className="text-secondary font-bold">تمام محصولات</span>
             </nav>
-            <h1 className="text-3xl md:text-6xl font-black text-secondary">
+            <h1 className="text-3xl md:text-6xl font-yekan font-black text-secondary">
               کالکشن <span className="text-primary italic">زیگو</span>
             </h1>
           </div>
-          <p className="text-accent max-w-md text-xs md:text-sm leading-relaxed hidden md:block">
+          <p className="text-accent max-w-md text-xs md:text-sm leading-relaxed hidden md:block text-right">
             مجموعه‌ای از بهترین و باکیفیت‌ترین لباس‌های کژوال و استریت‌ور با طراحی اختصاصی زیگو برای کسانی که به استایل خود اهمیت می‌دهند.
           </p>
         </div>

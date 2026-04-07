@@ -162,30 +162,56 @@ export default function ProductDetail() {
           </div>
 
           {/* Info Section */}
-          <div className="w-full lg:w-1/2 flex flex-col pt-4">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="flex text-amber-400">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+          <div className="w-full lg:w-1/2 flex flex-col">
+            
+            {/* MAIN PRODUCT INFO BOX (UNIFIED CARD) */}
+            <div className="bg-white border border-primary/20 rounded-[2.5rem] p-8 md:p-10 shadow-sm mb-8 transition-all hover:shadow-md">
+              <h1 className="text-4xl md:text-5xl font-yekan font-black text-secondary leading-tight mb-3">
+                {MOCK_PRODUCT.name}
+              </h1>
+              <p className="text-lg text-accent font-medium mb-8">
+                {MOCK_PRODUCT.subtitle}
+              </p>
+
+              <div className="w-full h-px bg-black/5 mb-8" />
+
+              {/* Price & Specs Row */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-bold text-accent">قیمت واحد (عمده):</span>
+                  <h2 className="text-4xl font-lalezar text-primary tracking-wider">
+                    {formatPrice(MOCK_PRODUCT.price)} <span className="text-sm font-bold text-accent font-yekan">تومان / عدد</span>
+                  </h2>
+                </div>
               </div>
-              <span className="text-xs font-bold text-accent">(۱۴۲ نظر)</span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl font-iransans font-bold text-secondary leading-tight mb-2">
-              {MOCK_PRODUCT.name}
-            </h1>
-            <p className="text-lg text-accent font-medium mb-8 border-b border-black/5 pb-8">
-              {MOCK_PRODUCT.subtitle}
-            </p>
-
-            {/* Unit Price Info */}
-            <div className="flex items-end gap-3 mb-6">
-              <h2 className="text-3xl font-black text-secondary">
-                {formatPrice(MOCK_PRODUCT.price)} <span className="text-sm font-bold text-accent">تومان / عدد</span>
-              </h2>
+              
+              {/* Detailed Sizes & Heights Info inside the card, but more compact */}
+              <div className="mt-10 pt-8 border-t border-black/5 flex flex-col gap-8">
+                <div className="flex flex-col gap-3">
+                  <h4 className="text-sm font-bold text-secondary">تمام سایزهای موجود در پک:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {MOCK_PRODUCT.sizes.map(size => (
+                      <span key={size} className="px-5 py-2.5 bg-[#f9f8ff] text-secondary font-black text-xs rounded-xl border border-black/5 shadow-sm">
+                        {size}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <h4 className="text-sm font-bold text-secondary">تمام قدهای موجود:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {MOCK_PRODUCT.heights.map(h => (
+                      <span key={h} className="px-5 py-2.5 bg-[#f9f8ff] text-secondary font-black text-xs rounded-xl border border-black/5 shadow-sm">
+                        {h}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Wholesale Pack Info & Quantity Calculation */}
-            <div className="mb-10 bg-[#f9f8ff] border border-primary/20 rounded-[2rem] p-8 shadow-sm">
+            <div className="mb-10 bg-[#f9f8ff] border border-primary/20 rounded-[2.5rem] p-8 md:p-10 shadow-sm transition-all hover:shadow-md">
               <div className="flex items-start gap-4 mb-8 pb-8 border-b border-black/5">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
                   <ShoppingBag className="w-6 h-6 text-primary" />
@@ -229,11 +255,11 @@ export default function ProductDetail() {
             </div>
 
             {/* Color View Selection */}
-            <div className="mb-12">
+            <div className="mb-12 bg-white border border-black/5 p-8 md:p-10 rounded-[2.5rem] shadow-sm">
               <div className="flex flex-col gap-2 mb-6">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-secondary">
-                    {dynamicSaleMode === "full_series" ? "این پک شامل تمامی رنگ‌های زیر است:" : "انتخاب رنگ‌های دلخواه:"}
+                  <span className="text-lg font-black text-secondary">
+                    {dynamicSaleMode === "full_series" ? "رنگ‌بندی موجود در پک:" : "انتخاب رنگ‌های دلخواه:"}
                   </span>
                   {dynamicSaleMode === "custom" && (
                     <span className={`text-xs font-bold ${selectedColors.length > 0 ? 'text-green-600 rounded-full bg-green-50 px-3 py-1' : 'text-primary'}`}>
@@ -243,7 +269,7 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 md:gap-4">
                 {MOCK_PRODUCT.colors.map(color => {
                   // In full_series, all are selected visually. In custom, only what user clicked.
                   const isSelected = dynamicSaleMode === "full_series" || selectedColors.some(c => c.code === color.code);
@@ -251,14 +277,14 @@ export default function ProductDetail() {
                     <button
                       key={color.code}
                       onClick={() => handleColorSelect(color)}
-                      className={`relative w-14 h-14 rounded-full flex items-center justify-center transition-all ${isSelected ? 'ring-2 ring-primary ring-offset-4 ring-offset-[#f9f8ff] scale-110' : 'opacity-80 hover:opacity-100 hover:scale-105 shadow-sm'}`}
+                      className={`relative w-11 h-11 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all ${isSelected ? 'ring-2 ring-primary ring-offset-4 ring-offset-white scale-110 shadow-lg' : 'opacity-80 hover:opacity-100 hover:scale-105 shadow-sm'}`}
                       style={{ backgroundColor: color.code }}
                       title={color.name}
                     >
                       {/* Inner inset shadow for realistic 3D sphere look */}
                       <span className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] pointer-events-none" />
                       {isSelected && dynamicSaleMode === "custom" && (
-                        <svg className="w-5 h-5 text-white/90 drop-shadow-md z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-5 h-5 md:w-6 md:h-6 text-white/90 drop-shadow-md z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
@@ -268,72 +294,37 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Sizes & Heights Info Block */}
-            <div className="mb-12 flex flex-col md:flex-row gap-8 bg-white border border-black/5 p-6 rounded-[2rem] shadow-sm">
-              <div className="flex-1">
-                <div className="flex justify-between items-center mb-4">
-                  <h4 className="text-sm font-bold text-secondary">سایزبندی</h4>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {MOCK_PRODUCT.sizes.map(size => (
-                    <span
-                      key={size}
-                      className="px-4 py-2 bg-[#f9f8ff] text-secondary font-black text-lg rounded-xl border border-black/5 min-w-[3.5rem] text-center shadow-sm"
-                    >
-                      {size}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="w-px bg-black/5 hidden md:block"></div>
-              <div className="flex-1">
-                <div className="flex justify-between items-center mb-4">
-                  <h4 className="text-sm font-bold text-secondary">قد</h4>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {MOCK_PRODUCT.heights.map(h => (
-                    <span
-                      key={h}
-                      className="px-4 py-2 bg-[#f9f8ff] text-secondary font-black text-lg rounded-xl border border-black/5 min-w-[3.5rem] text-center shadow-sm"
-                    >
-                      {h}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Big CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-16">
+            {/* Big CTA Buttons - Optimized for mobile */}
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-16">
               <motion.button
                 disabled={!canAddToCart}
                 whileHover={canAddToCart ? { scale: 1.02 } : {}}
                 whileTap={canAddToCart ? { scale: 0.98 } : {}}
-                className={`flex-1 text-white py-6 rounded-[2rem] font-black text-lg shadow-xl overflow-hidden relative group transition-colors ${canAddToCart ? 'bg-primary shadow-primary/30 cursor-pointer' : 'bg-gray-400 cursor-not-allowed shadow-none'}`}
+                className={`flex-1 text-white py-5 md:py-7 rounded-2xl md:rounded-[2.5rem] font-black text-base md:text-xl shadow-xl overflow-hidden relative group transition-colors ${canAddToCart ? 'bg-primary shadow-primary/30 cursor-pointer' : 'bg-gray-400 cursor-not-allowed shadow-none'}`}
               >
                 <span className="relative z-10 flex items-center justify-center gap-3">
-                  <ShoppingBag className="w-6 h-6" />
-                  {canAddToCart ? 'افزودن به سبد خرید' : `لطفاً حداقل ${MIN_COLORS_CUSTOM.toLocaleString('fa-IR')} رنگ انتخاب کنید`}
+                  <ShoppingBag className="w-5 h-5 md:w-7 md:h-7" />
+                  {canAddToCart ? 'افزودن به سبد خرید' : `حداقل ${MIN_COLORS_CUSTOM.toLocaleString('fa-IR')} رنگ انتخاب کنید`}
                 </span>
                 {canAddToCart && (
                   <div className="absolute inset-0 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-0" />
                 )}
               </motion.button>
 
-              <button className="sm:w-20 sm:h-auto py-6 bg-white shrink-0 text-secondary border border-black/5 rounded-[2rem] shadow-sm hover:shadow-md hover:border-black/10 flex items-center justify-center transition-all">
-                <Share2 className="w-6 h-6" />
+              <button className="sm:w-24 py-5 md:py-7 bg-white shrink-0 text-secondary border border-black/5 rounded-2xl md:rounded-[2.5rem] shadow-sm hover:shadow-md hover:border-black/10 flex items-center justify-center transition-all">
+                <Share2 className="w-5 h-5 md:w-7 md:h-7" />
               </button>
             </div>
 
-
-
             {/* Accordion / Description */}
-            <div className="prose prose-sm prose-p:leading-loose text-secondary max-w-none bg-white p-10 rounded-[2rem] shadow-sm border border-black/5">
-              <h3 className="text-xl font-black mb-6 text-primary">توضیحات محصول</h3>
-              <p>{MOCK_PRODUCT.description}</p>
+            <div className="prose prose-sm prose-p:leading-loose text-secondary max-w-none bg-white p-10 md:p-14 rounded-[2.5rem] shadow-sm border border-black/5">
+              <h3 className="text-2xl font-black mb-8 text-primary border-b border-black/5 pb-4">توضیحات محصول</h3>
+              <div className="text-base text-secondary/80 font-medium leading-relaxed mb-12">
+                {MOCK_PRODUCT.description}
+              </div>
 
-              <h3 className="text-xl font-black mt-10 mb-6 text-primary">ویژگی‌های برجسته</h3>
-              <ul className="list-disc pr-6 space-y-3 font-medium text-secondary/80">
+              <h3 className="text-2xl font-black mt-12 mb-8 text-primary border-b border-black/5 pb-4">ویژگی‌های برجسته</h3>
+              <ul className="list-disc pr-8 space-y-4 text-base font-medium text-secondary/80">
                 {MOCK_PRODUCT.features.map((feature, i) => (
                   <li key={i}>{feature}</li>
                 ))}

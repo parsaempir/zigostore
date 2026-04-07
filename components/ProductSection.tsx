@@ -124,7 +124,7 @@ const ProductSection = () => {
     <section id="products" className="pt-24 dir-rtl bg-white selection:bg-primary selection:text-white overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl mb-20 flex flex-col items-center text-center">
         {/* Header - Fixed Visibility & Centered */}
-        <h2 className="text-4xl md:text-5xl font-iransans font-bold text-secondary mb-8 block">
+        <h2 className="text-3xl md:text-4xl font-iransans font-bold text-secondary mb-8 block">
           محصولات <span className="text-primary italic">جدید</span>
         </h2>
         <Link href="/products" className="flex items-center gap-4 text-sm font-black text-secondary hover:text-primary transition-all group bg-white/20 backdrop-blur-lg border border-white/40 px-10 py-4 rounded-full shadow-lg">
