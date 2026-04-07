@@ -39,7 +39,7 @@ export default function ProductDetail() {
   const dynamicSaleMode = (id === "1" || id === "2") ? "full_series" : "custom";
 
   const [activeImg, setActiveImg] = useState(0);
-  const [selectedColors, setSelectedColors] = useState<typeof MOCK_PRODUCT.colors>([]);
+  const [colorQuantities, setColorQuantities] = useState<Record<string, number>>({});
   const [isZoomed, setIsZoomed] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [packQuantity, setPackQuantity] = useState(1);
@@ -59,19 +59,30 @@ export default function ProductDetail() {
 
   const handleColorSelect = (color: typeof MOCK_PRODUCT.colors[0]) => {
     setActiveImg(color.imgIndex);
+    if (dynamicSaleMode === "full_series") return;
 
-    if (dynamicSaleMode === "full_series") {
-      // In full series, clicking just views the image. Color logic is fixed to all.
-      return;
-    }
+    setColorQuantities(prev => {
+      if (prev[color.code]) return prev;
+      return { ...prev, [color.code]: 1 };
+    });
+  };
 
-    // Custom selection logic
-    const isAlreadySelected = selectedColors.some(c => c.code === color.code);
-    if (isAlreadySelected) {
-      setSelectedColors(prev => prev.filter(c => c.code !== color.code));
-    } else {
-      setSelectedColors(prev => [...prev, color]);
-    }
+  const handleColorIncrement = (e: React.MouseEvent, colorCode: string) => {
+    e.stopPropagation();
+    setColorQuantities(prev => ({ ...prev, [colorCode]: (prev[colorCode] || 0) + 1 }));
+  };
+
+  const handleColorDecrement = (e: React.MouseEvent, colorCode: string) => {
+    e.stopPropagation();
+    setColorQuantities(prev => {
+      const current = prev[colorCode] || 0;
+      if (current <= 1) {
+        const newState = { ...prev };
+        delete newState[colorCode];
+        return newState;
+      }
+      return { ...prev, [colorCode]: current - 1 };
+    });
   };
 
   const handleDecrease = () => setPackQuantity(p => Math.max(1, p - 1));
@@ -81,17 +92,20 @@ export default function ProductDetail() {
   const MIN_COLORS_CUSTOM = 2;
   const piecesPerColor = MOCK_PRODUCT.sizes.length;
 
+  const totalCustomSeries = Object.values(colorQuantities).reduce((a, b) => a + b, 0);
+  const uniqueSelectedColors = Object.keys(colorQuantities).length;
+
   const totalItems = dynamicSaleMode === "full_series"
     ? MOCK_PRODUCT.packSize * packQuantity
-    : selectedColors.length * piecesPerColor * packQuantity;
+    : totalCustomSeries * piecesPerColor;
 
   const numericTotalPrice = dynamicSaleMode === "full_series"
     ? MOCK_PRODUCT.price * MOCK_PRODUCT.packSize * packQuantity
-    : MOCK_PRODUCT.price * (selectedColors.length || 0) * piecesPerColor * packQuantity;
+    : MOCK_PRODUCT.price * totalCustomSeries * piecesPerColor;
 
   const totalPrice = numericTotalPrice.toLocaleString("fa-IR");
 
-  const isValidCustom = selectedColors.length >= MIN_COLORS_CUSTOM;
+  const isValidCustom = uniqueSelectedColors >= MIN_COLORS_CUSTOM;
   const canAddToCart = dynamicSaleMode === "full_series" || isValidCustom;
 
   return (
@@ -175,18 +189,8 @@ export default function ProductDetail() {
 
               <div className="w-full h-px bg-black/5 mb-8" />
 
-              {/* Price & Specs Row */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs font-bold text-accent">قیمت واحد (عمده):</span>
-                  <h2 className="text-4xl font-lalezar text-primary tracking-wider">
-                    {formatPrice(MOCK_PRODUCT.price)} <span className="text-sm font-bold text-accent font-yekan">تومان / عدد</span>
-                  </h2>
-                </div>
-              </div>
-              
               {/* Detailed Sizes & Heights Info inside the card, but more compact */}
-              <div className="mt-10 pt-8 border-t border-black/5 flex flex-col gap-8">
+              <div className="flex flex-col gap-8 mb-10">
                 <div className="flex flex-col gap-3">
                   <h4 className="text-sm font-bold text-secondary">تمام سایزهای موجود در پک:</h4>
                   <div className="flex flex-wrap gap-2">
@@ -206,6 +210,16 @@ export default function ProductDetail() {
                       </span>
                     ))}
                   </div>
+                </div>
+              </div>
+
+              {/* Price & Specs Row (Moved down) */}
+              <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-bold text-accent">قیمت واحد (عمده):</span>
+                  <h2 className="text-4xl font-lalezar text-primary tracking-wider">
+                    {formatPrice(MOCK_PRODUCT.price)} <span className="text-sm font-bold text-accent font-yekan">تومان / عدد</span>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -230,16 +244,22 @@ export default function ProductDetail() {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
                 {/* Counter */}
                 <div className="flex flex-col gap-2 w-full sm:w-auto">
-                  <span className="text-xs font-bold text-secondary">
-                    {dynamicSaleMode === "full_series" ? "تعداد پک:" : "تعداد سری (تکرار انتخاب):"}
-                  </span>
-                  <div className="flex items-center gap-4 bg-white rounded-[1.5rem] shadow-sm border border-black/10 p-2 w-full sm:w-auto justify-between">
-                    <button onClick={handleDecrease} className="w-12 h-12 flex items-center justify-center bg-[#f9f8ff] text-secondary rounded-xl hover:bg-black/5 transition-colors font-black text-2xl">-</button>
-                    <div className="flex flex-col items-center justify-center px-4">
-                      <span className="font-black text-2xl text-secondary">{packQuantity.toLocaleString('fa-IR')}</span>
-                    </div>
-                    <button onClick={handleIncrease} className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-black text-2xl">+</button>
-                  </div>
+                  {dynamicSaleMode === "full_series" ? (
+                    <>
+                      <span className="text-xs font-bold text-secondary">تعداد پک:</span>
+                      <div className="flex items-center gap-4 bg-white rounded-[1.5rem] shadow-sm border border-black/10 p-2 w-full sm:w-auto justify-between">
+                        <button onClick={handleDecrease} className="w-12 h-12 flex items-center justify-center bg-[#f9f8ff] text-secondary rounded-xl hover:bg-black/5 transition-colors font-black text-2xl">-</button>
+                        <div className="flex flex-col items-center justify-center px-4">
+                          <span className="font-black text-2xl text-secondary">{packQuantity.toLocaleString('fa-IR')}</span>
+                        </div>
+                        <button onClick={handleIncrease} className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-black text-2xl">+</button>
+                      </div>
+                    </>
+                  ) : (
+                    <span className="text-xs font-medium text-accent text-right sm:text-right mt-2 sm:mt-0 max-w-[220px] leading-relaxed">
+                      لطفاً با استفاده از دکمه‌های + و - تعداد سری مورد نظر از هر رنگ را در کادر پایین انتخاب کنید.
+                    </span>
+                  )}
                 </div>
 
                 {/* Total Price Statement */}
@@ -262,33 +282,42 @@ export default function ProductDetail() {
                     {dynamicSaleMode === "full_series" ? "رنگ‌بندی موجود در پک:" : "انتخاب رنگ‌های دلخواه:"}
                   </span>
                   {dynamicSaleMode === "custom" && (
-                    <span className={`text-xs font-bold ${selectedColors.length > 0 ? 'text-green-600 rounded-full bg-green-50 px-3 py-1' : 'text-primary'}`}>
-                      {selectedColors.length} رنگ انتخاب شده
+                    <span className={`text-xs font-bold ${uniqueSelectedColors > 0 ? 'text-green-600 rounded-full bg-green-50 px-3 py-1' : 'text-primary'}`}>
+                      {uniqueSelectedColors} رنگ انتخاب شده
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3 md:gap-4">
+              <div className="flex flex-wrap gap-4 md:gap-6">
                 {MOCK_PRODUCT.colors.map(color => {
-                  // In full_series, all are selected visually. In custom, only what user clicked.
-                  const isSelected = dynamicSaleMode === "full_series" || selectedColors.some(c => c.code === color.code);
+                  const qty = colorQuantities[color.code] || 0;
+                  const isSelected = dynamicSaleMode === "full_series" || qty > 0;
                   return (
-                    <button
-                      key={color.code}
-                      onClick={() => handleColorSelect(color)}
-                      className={`relative w-11 h-11 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all ${isSelected ? 'ring-2 ring-primary ring-offset-4 ring-offset-white scale-110 shadow-lg' : 'opacity-80 hover:opacity-100 hover:scale-105 shadow-sm'}`}
-                      style={{ backgroundColor: color.code }}
-                      title={color.name}
-                    >
-                      {/* Inner inset shadow for realistic 3D sphere look */}
-                      <span className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] pointer-events-none" />
-                      {isSelected && dynamicSaleMode === "custom" && (
-                        <svg className="w-5 h-5 md:w-6 md:h-6 text-white/90 drop-shadow-md z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
+                    <div key={color.code} className="flex flex-col items-center gap-2">
+                      <button
+                        onClick={() => handleColorSelect(color)}
+                        className={`relative w-9 h-9 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all ${isSelected ? 'ring-2 ring-primary ring-offset-4 ring-offset-white scale-110 shadow-lg' : 'opacity-80 hover:opacity-100 hover:scale-105 shadow-sm'}`}
+                        style={{ backgroundColor: color.code }}
+                        title={color.name}
+                      >
+                        {/* Inner inset shadow for realistic 3D sphere look */}
+                        <span className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] pointer-events-none" />
+                        {isSelected && dynamicSaleMode === "custom" && (
+                          <svg className="w-4 h-4 md:w-6 md:h-6 text-white/90 drop-shadow-md z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </button>
+
+                      {dynamicSaleMode === "custom" && isSelected && (
+                        <div className="flex items-center gap-2 bg-[#f9f8ff] border border-black/5 rounded-full px-2 py-1 shadow-sm mt-1">
+                          <button onClick={(e) => handleColorDecrement(e, color.code)} className="text-secondary font-black text-lg w-5 h-5 flex items-center justify-center hover:bg-black/5 rounded-full cursor-pointer">-</button>
+                          <span className="text-xs font-black text-secondary w-3 text-center">{qty.toLocaleString("fa-IR")}</span>
+                          <button onClick={(e) => handleColorIncrement(e, color.code)} className="text-secondary font-black text-lg w-5 h-5 flex items-center justify-center hover:bg-black/5 rounded-full cursor-pointer">+</button>
+                        </div>
                       )}
-                    </button>
+                    </div>
                   )
                 })}
               </div>

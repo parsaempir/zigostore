@@ -65,6 +65,34 @@ const products = [
     price: "۵۹۰,۰۰۰ تومان",
     subtitle: "سفید / پنبه سوپر",
   },
+  {
+    id: 9,
+    name: "کاپشن کلاسیک زیگو",
+    images: ["/outfit1.png"],
+    price: "۱,۸۹۰,۰۰۰ تومان",
+    subtitle: "قهوه‌ای / برزنت شسته‌شده",
+  },
+  {
+    id: 10,
+    name: "تی‌شرت لانگ طرح مار",
+    images: ["/file_00000000cc88720aa6c754f889026f84.jpg"],
+    price: "۷۹۰,۰۰۰ تومان",
+    subtitle: "مشکی ذغالی / پنبه سنگ‌شور",
+  },
+  {
+    id: 11,
+    name: "هودی نلسون پرمیوم",
+    images: ["/outfit2.png"],
+    price: "۱,۴۹۰,۰۰۰ تومان",
+    subtitle: "طوسی / دورس ضخیم",
+  },
+  {
+    id: 12,
+    name: "شلوار کارگو بردی",
+    images: ["/file_00000000d5bc720ab136d0555f23fd2c.jpg"],
+    price: "۱,۱۹۰,۰۰۰ تومان",
+    subtitle: "دودی / کتان سنگ‌شور",
+  },
 ];
 
 const ProductCard = ({ product }: { product: typeof products[0] }) => {
@@ -87,10 +115,14 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
         >
           <Heart className={`w-4 h-4 md:w-5 md:h-5 transition-transform ${isLiked ? "fill-primary text-primary scale-110" : ""}`} />
         </button>
-        <div className="absolute bottom-4 left-0 right-0 px-4 flex justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex">
-          <button className="w-full bg-white/90 backdrop-blur-xl text-secondary py-3 rounded-full text-xs font-black shadow-xl flex justify-center items-center gap-2">
-            <ShoppingBag className="w-4 h-4" />
-            افزودن به سبد
+        {/* Action Button - Simplified & static like landing page */}
+        <div className="absolute bottom-4 left-0 right-0 px-4 flex justify-center z-20">
+          <button
+            onClick={(e) => { e.stopPropagation(); router.push(`/products/${product.id}`); }}
+            className="w-full bg-white/30 backdrop-blur-xl border border-white/30 hover:bg-white/50 text-secondary py-3 rounded-full text-xs font-black shadow-xl transition-all duration-300 flex justify-center items-center gap-2"
+          >
+            <ShoppingBag className="w-4 h-4 text-secondary" />
+            مشاهده و خرید
           </button>
         </div>
       </div>
@@ -107,6 +139,12 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
 
 export default function ProductsPage() {
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (pageNum: number) => {
+    setCurrentPage(pageNum);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <main className="min-h-screen bg-white dir-rtl pb-24">
@@ -140,10 +178,38 @@ export default function ProductsPage() {
         </div>
 
         {/* Grid: 2 columns on mobile, more on desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-8 md:gap-y-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-8 md:gap-y-12 mb-16">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+
+        {/* Pagination */}
+        <div className="flex items-center justify-center gap-2">
+          {[1, 2, 3].map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`w-10 h-10 rounded-xl font-bold flex items-center justify-center shadow-md transition-colors ${
+                currentPage === page
+                  ? "bg-secondary text-white"
+                  : "bg-white text-secondary hover:bg-gray-50 border border-gray-100"
+              }`}
+            >
+              {page.toLocaleString('fa-IR')}
+            </button>
+          ))}
+          <span className="text-accent px-2">...</span>
+          <button
+            onClick={() => handlePageChange(8)}
+            className={`w-10 h-10 rounded-xl font-bold flex items-center justify-center shadow-md transition-colors ${
+              currentPage === 8
+                ? "bg-secondary text-white"
+                : "bg-white text-secondary hover:bg-gray-50 border border-gray-100"
+            }`}
+          >
+            ۸
+          </button>
         </div>
       </div>
 
