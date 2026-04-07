@@ -31,15 +31,12 @@ const Hero = () => {
     { id: 2, src: "/outfit2.png", alt: "Side Fashion 2" },
   ];
 
-  const [positions, setPositions] = useState(["center", "right", "left"]);
+  const [positions, setPositions] = useState(["center", "left", "right"]);
 
   useEffect(() => {
-    if (!isLoaded) return;
-    const interval = setInterval(() => {
-      setPositions((prev) => [prev[1], prev[2], prev[0]]);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [isLoaded]);
+    // Animation interval removed to keep images static as requested
+    setIsLoaded(true);
+  }, []);
 
   useEffect(() => {
     // Initial Reveal Delay
