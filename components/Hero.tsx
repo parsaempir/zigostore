@@ -77,7 +77,7 @@ const Hero = () => {
         >
           <Link 
             href="#products"
-            className="px-12 py-4 md:px-20 md:py-6 bg-white text-black font-black text-sm md:text-lg uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300 shadow-[0_20px_80px_rgba(255,255,255,0.15)] active:scale-95 text-center block rounded-sm md:rounded-none"
+            className="px-12 py-4 md:px-20 md:py-6 bg-white/20 backdrop-blur-md border border-white/30 text-white font-black text-sm md:text-lg tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-[0_20px_80px_rgba(255,255,255,0.15)] active:scale-95 text-center block rounded-full"
           >
              مشاهده کالکشن اختصاصی زیگو
           </Link>

@@ -16,26 +16,26 @@ const InstagramIcon = ({ className }: { className?: string }) => (
 
 const TelegramIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.891 8.268l-1.937 9.131c-.146.645-.529.803-1.07.502l-2.951-2.176-1.423 1.37c-.158.158-.29.29-.594.29l.212-3.003 5.466-4.939c.238-.212-.052-.33-.368-.121l-6.756 4.254-2.911-.91c-.633-.198-.645-.633.132-.936l11.369-4.381c.527-.198.988.118.861.919z"/>
+    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.891 8.268l-1.937 9.131c-.146.645-.529.803-1.07.502l-2.951-2.176-1.423 1.37c-.158.158-.29.29-.594.29l.212-3.003 5.466-4.939c.238-.212-.052-.33-.368-.121l-6.756 4.254-2.911-.91c-.633-.198-.645-.633.132-.936l11.369-4.381c.527-.198.988.118.861.919z" />
   </svg>
 );
 
 const Footer = () => {
   return (
     <footer className="relative bg-[#f9f9f9] pt-24 pb-12 dir-rtl overflow-hidden border-t border-gray-100">
-      
+
       {/* Scroll Triggered Fade-In Animation */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="container mx-auto px-6 max-w-7xl relative z-10"
       >
-        
+
         {/* Main Columns Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 items-start mb-20">
-          
+
           {/* 1. Brand Section */}
           <div className="space-y-10 flex flex-col items-center md:items-start text-center md:text-right">
             <div className="space-y-6">
