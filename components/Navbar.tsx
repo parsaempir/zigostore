@@ -35,29 +35,28 @@ const Navbar = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 border-b ${
-          isScrolled 
-            ? "bg-white/70 backdrop-blur-3xl border-gray-100/50 shadow-sm py-3" 
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 border-b ${isScrolled
+            ? "bg-white/70 backdrop-blur-3xl border-gray-100/50 shadow-sm py-3"
             : "bg-transparent border-transparent py-6"
-        }`}
+          }`}
       >
         <div className="container mx-auto px-6 flex items-center justify-between dir-rtl text-right">
-          
+
           {/* RIGHT: Logo & Links */}
           <div className="flex items-center gap-10">
             {/* LOGO - Always visible */}
             <Link href="/" className="relative w-12 h-12 overflow-hidden rounded-full border border-white/20 shadow-xl hover:scale-110 transition-transform flex-shrink-0">
               <Image src="/zigo.jpg" alt="Zigo Logo" fill className="object-cover" />
             </Link>
-            
+
             {/* LINKS - Reveal on scroll (Desktop) */}
-            <motion.div 
-               animate={{ 
-                 opacity: isScrolled ? 1 : 0, 
-                 x: isScrolled ? 0 : 20,
-                 pointerEvents: isScrolled ? "auto" : "none"
-               }}
-               className="hidden lg:flex gap-1 items-center relative"
+            <motion.div
+              animate={{
+                opacity: isScrolled ? 1 : 0,
+                x: isScrolled ? 0 : 20,
+                pointerEvents: isScrolled ? "auto" : "none"
+              }}
+              className="hidden lg:flex gap-1 items-center relative"
             >
               {navLinks.map((link) => (
                 <Link
@@ -83,9 +82,9 @@ const Navbar = () => {
           {/* LEFT: Auth & Cart */}
           <div className="flex items-center gap-4">
             {/* CART - Reveal on scroll (Desktop) */}
-            <motion.button 
-              animate={{ 
-                opacity: isScrolled ? 1 : 0, 
+            <motion.button
+              animate={{
+                opacity: isScrolled ? 1 : 0,
                 scale: isScrolled ? 1 : 0.8,
                 pointerEvents: isScrolled ? "auto" : "none"
               }}
@@ -95,28 +94,27 @@ const Navbar = () => {
               <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full animate-pulse" />
             </motion.button>
 
-            <motion.div 
-               animate={{ opacity: isScrolled ? 1 : 0 }}
-               className={`w-px h-6 hidden md:block mx-1 ${isScrolled ? "bg-gray-200" : "bg-white/20"}`} 
+            <motion.div
+              animate={{ opacity: isScrolled ? 1 : 0 }}
+              className={`w-px h-6 hidden md:block mx-1 ${isScrolled ? "bg-gray-200" : "bg-white/20"}`}
             />
 
             {/* LOGIN / SIGNUP - Hidden on mobile, reveal on scroll on desktop desktop */}
             <div className="hidden md:flex items-center ml-2">
-              <Link href="#" className={`px-8 py-2.5 backdrop-blur-xl border border-white/30 text-xs font-yekan font-black rounded-full hover:bg-primary hover:text-white transition-all shadow-lg flex-shrink-0 ${isScrolled ? "bg-secondary/5 text-secondary border-gray-200" : "bg-white/10 text-white border-white/20"}`}>
+              <Link href="/auth/login" className={`px-8 py-2.5 backdrop-blur-xl border border-white/30 text-xs font-yekan font-black rounded-full hover:bg-primary hover:text-white transition-all shadow-lg flex-shrink-0 ${isScrolled ? "bg-secondary/5 text-secondary border-gray-200" : "bg-white/10 text-white border-white/20"}`}>
                 ورود / ثبت نام
               </Link>
             </div>
-            
+
             {/* HAMBURGER - Always visible on mobile, background disappears on scroll */}
-            <motion.button 
-              animate={{ 
-                opacity: 1, 
+            <motion.button
+              animate={{
+                opacity: 1,
                 x: 0,
                 pointerEvents: "auto"
               }}
-              className={`lg:hidden p-3 rounded-full transition-colors ${
-                isScrolled ? "bg-transparent text-secondary" : "bg-white/10 text-white shadow-xl"
-              }`}
+              className={`lg:hidden p-3 rounded-full transition-colors ${isScrolled ? "bg-transparent text-secondary" : "bg-white/10 text-white shadow-xl"
+                }`}
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu className="w-6 h-6" />
@@ -143,14 +141,14 @@ const Navbar = () => {
                 </div>
                 <span className="text-white font-black tracking-tighter text-lg uppercase">ZIGO</span>
               </div>
-              <button 
+              <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-12 h-12 flex items-center justify-center bg-white/5 hover:bg-white/10 text-white rounded-full transition-all border border-white/10"
               >
                 <X className="w-7 h-7" />
               </button>
             </div>
-            
+
             <div className="flex-grow flex flex-col justify-center px-12 gap-12">
               {/* Main Links Section - Simplified for clean look */}
               <div className="flex flex-col gap-10">
@@ -175,21 +173,21 @@ const Navbar = () => {
 
               {/* Social Connections */}
               <div className="pt-12 border-t border-white/5 flex items-center gap-6 justify-end">
-                  <Link href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all shadow-xl border border-white/5">
-                    <Instagram className="w-6 h-6" />
-                  </Link>
-                  <Link href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all shadow-xl border border-white/5">
-                    <MessageCircle className="w-6 h-6" />
-                  </Link>
-                  <Link href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all shadow-xl border border-white/5">
-                    <Phone className="w-6 h-6" />
-                  </Link>
+                <Link href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all shadow-xl border border-white/5">
+                  <Instagram className="w-6 h-6" />
+                </Link>
+                <Link href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all shadow-xl border border-white/5">
+                  <MessageCircle className="w-6 h-6" />
+                </Link>
+                <Link href="#" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all shadow-xl border border-white/5">
+                  <Phone className="w-6 h-6" />
+                </Link>
               </div>
             </div>
 
             {/* Bottom Sticky Action */}
             <div className="p-8 pb-12 flex gap-3">
-              <Link href="#" className="flex-1 py-5 bg-white text-black text-center font-black rounded-2xl text-sm hover:bg-primary hover:text-white transition-all shadow-xl">
+              <Link href="/auth/login" className="flex-1 py-5 bg-white text-black text-center font-black rounded-2xl text-sm hover:bg-primary hover:text-white transition-all shadow-xl">
                 ورود / ثبت نام
               </Link>
               <Link href="#" className="flex-[0.4] py-5 bg-white/5 border border-white/10 text-white text-center font-black rounded-2xl text-sm hover:bg-white/10 transition-all flex items-center justify-center gap-2">

@@ -177,7 +177,7 @@ export default function ProductDetail() {
 
           {/* Info Section */}
           <div className="w-full lg:w-1/2 flex flex-col">
-            
+
             {/* MAIN PRODUCT INFO BOX (UNIFIED CARD) */}
             <div className="bg-white border border-primary/20 rounded-[2.5rem] p-8 md:p-10 shadow-sm mb-8 transition-all hover:shadow-md">
               <h1 className="text-4xl md:text-5xl font-yekan font-black text-secondary leading-tight mb-3">

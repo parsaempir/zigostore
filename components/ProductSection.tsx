@@ -6,67 +6,9 @@ import { useState, useRef } from "react";
 import { Heart, ArrowLeft, ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useStore, Product } from "@/context/StoreContext";
 
-const products = [
-  {
-    id: 1,
-    name: "کاپشن کلاسیک زیگو",
-    images: ["/outfit1.png"],
-    price: "۱,۸۹۰,۰۰۰ تومان",
-    subtitle: "قهوه‌ای / برزنت شسته‌شده",
-  },
-  {
-    id: 2,
-    name: "تی‌شرت لانگ طرح مار",
-    images: ["/file_00000000cc88720aa6c754f889026f84.jpg"],
-    price: "۷۹۰,۰۰۰ تومان",
-    subtitle: "مشکی ذغالی / پنبه سنگ‌شور",
-  },
-  {
-    id: 3,
-    name: "هودی نلسون پرمیوم",
-    images: ["/outfit2.png"],
-    price: "۱,۴۹۰,۰۰۰ تومان",
-    subtitle: "طوسی / دورس ضخیم",
-  },
-  {
-    id: 4,
-    name: "شلوار کارگو بردی",
-    images: ["/file_00000000d5bc720ab136d0555f23fd2c.jpg"],
-    price: "۱,۱۹۰,۰۰۰ تومان",
-    subtitle: "دودی / کتان سنگ‌شور",
-  },
-  {
-    id: 5,
-    name: "کت جین زاپ‌دار",
-    images: ["/IMG_20260227_221721_726.jpg"],
-    price: "۲,۳۵۰,۰۰۰ تومان",
-    subtitle: "آبی روشن / دنیم ضخیم",
-  },
-  {
-    id: 6,
-    name: "پیراهن مخمل کبریتی",
-    images: ["/IMG_20260225_105448_730.jpg"],
-    price: "۹۸۰,۰۰۰ تومان",
-    subtitle: "خردلی / مخمل ۱۰۰٪ پنبه",
-  },
-  {
-    id: 7,
-    name: "دورس یقه ۳ سانت",
-    images: ["/IMG_20260227_221751_181.jpg"],
-    price: "۱,۲۵۰,۰۰۰ تومان",
-    subtitle: "سرمه‌ای / پنبه دورس",
-  },
-  {
-    id: 8,
-    name: "تی‌شرت نخی بیسیک",
-    images: ["/IMG_20260209_192639_488.jpg"],
-    price: "۵۹۰,۰۰۰ تومان",
-    subtitle: "سفید / پنبه سوپر",
-  },
-];
-
-const ProductCard = ({ product }: { product: typeof products[0] }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const [isLiked, setIsLiked] = useState(false);
   const router = useRouter();
 
@@ -116,9 +58,11 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
   );
 };
 
+
 const ProductSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { products } = useStore();
 
   return (
     <section id="products" className="pt-24 dir-rtl bg-white selection:bg-primary selection:text-white overflow-hidden">

@@ -149,7 +149,7 @@ export default function ProductsPage() {
   return (
     <main className="min-h-screen bg-white dir-rtl pb-24">
       <Navbar />
-      
+
       <div className="pt-24 md:pt-32 pb-20 px-4 md:px-6 max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6">
@@ -190,11 +190,10 @@ export default function ProductsPage() {
             <button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`w-10 h-10 rounded-xl font-bold flex items-center justify-center shadow-md transition-colors ${
-                currentPage === page
+              className={`w-10 h-10 rounded-xl font-bold flex items-center justify-center shadow-md transition-colors ${currentPage === page
                   ? "bg-secondary text-white"
                   : "bg-white text-secondary hover:bg-gray-50 border border-gray-100"
-              }`}
+                }`}
             >
               {page.toLocaleString('fa-IR')}
             </button>
@@ -202,11 +201,10 @@ export default function ProductsPage() {
           <span className="text-accent px-2">...</span>
           <button
             onClick={() => handlePageChange(8)}
-            className={`w-10 h-10 rounded-xl font-bold flex items-center justify-center shadow-md transition-colors ${
-              currentPage === 8
+            className={`w-10 h-10 rounded-xl font-bold flex items-center justify-center shadow-md transition-colors ${currentPage === 8
                 ? "bg-secondary text-white"
                 : "bg-white text-secondary hover:bg-gray-50 border border-gray-100"
-            }`}
+              }`}
           >
             ۸
           </button>
