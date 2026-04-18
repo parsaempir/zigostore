@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/image";
 import NextLink from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Lock, ArrowLeft, ArrowRight, User, Phone, CheckCircle2 } from "lucide-react";
