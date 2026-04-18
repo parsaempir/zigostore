@@ -4,15 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Mail, Lock, ArrowLeft, ArrowRight, User } from "lucide-react";
+import { Mail, Lock, ArrowLeft, ArrowRight, User, Phone } from "lucide-react";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login with:", email, password);
+    console.log("Login with:", phone);
+    // Simulation of success
+    alert("کد ورود به شماره " + phone + " ارسال شد (شبیه سازی)");
   };
 
   return (
@@ -36,45 +37,24 @@ export default function LoginPage() {
               </div>
             </Link>
             <h1 className="text-3xl font-yekan font-black text-secondary tracking-tight">خوش آمدید</h1>
-            <p className="text-sm font-yekan text-accent font-medium mt-2">جهت ورود به پنل کاربری اطلاعات خود را وارد کنید</p>
+            <p className="text-sm font-yekan text-accent font-medium mt-2">شماره همراه خود را جهت ورود وارد کنید</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-1.5">
-              <label className="text-sm font-yekan font-bold text-secondary/80 mr-2">ایمیل یا شماره همراه</label>
+              <label className="text-sm font-yekan font-bold text-secondary/80 mr-2">شماره همراه</label>
               <div className="relative group">
                 <input
-                  type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   className="w-full bg-white/50 border border-secondary/10 px-12 py-4 rounded-2xl font-yekan text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all text-right"
-                  placeholder="example@mail.com"
+                  placeholder="۰۹۱۲۳۴۵۶۷۸۹"
                 />
-                <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/40 group-focus-within:text-primary transition-colors" />
+                <Phone className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/40 group-focus-within:text-primary transition-colors" />
               </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-yekan font-bold text-secondary/80 mr-2">رمز عبور</label>
-              <div className="relative group">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-white/50 border border-secondary/10 px-12 py-4 rounded-2xl font-yekan text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all text-right"
-                  placeholder="••••••••"
-                />
-                <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary/40 group-focus-within:text-primary transition-colors" />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between text-xs font-yekan pt-1">
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input type="checkbox" className="w-4 h-4 rounded border-secondary/20 text-primary focus:ring-primary/20 transition-all" />
-                <span className="text-secondary/60 group-hover:text-secondary transition-colors">مرا به خاطر بسپار</span>
-              </label>
-              <Link href="#" className="text-primary hover:text-primary/80 font-bold transition-colors">رمز عبور را فراموش کرده‌اید؟</Link>
             </div>
 
             <motion.button
@@ -83,7 +63,7 @@ export default function LoginPage() {
               type="submit"
               className="w-full bg-primary py-4 rounded-2xl text-white font-yekan font-black text-sm shadow-xl shadow-primary/20 hover:bg-primary/95 transition-all flex items-center justify-center gap-2"
             >
-              <span>ورود به حساب</span>
+              <span>دریافت کد ورود</span>
               <ArrowLeft className="w-4 h-4" />
             </motion.button>
           </form>
